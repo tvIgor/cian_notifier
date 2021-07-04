@@ -1,0 +1,23 @@
+version: "3.8"
+
+x-common-variables: &common-variables
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_USER: postgres
+
+services:
+  cian-manager:
+    build: cian_manager/
+    restart: always
+    environment:
+      <<: *common-variables
+      POSTGRES_HOST: cian-db
+      POSTGRES_PORT: 5432
+      BOT_TOKEN:
+      CHAT_ID:
+      POLL_INTERVAL_HOURS: 1
+      CIAN_REQUEST: https://spb.cian.ru/export/xls/offers/?currency=2&deal_type=rent&district%5B0%5D=702&engine_version=2&maxprice=30000&offer_type=flat&room1=1&room2=1&type=4
+
+  cian-db:
+    build: cian_db/
+    restart: always
+    environment: *common-variables
